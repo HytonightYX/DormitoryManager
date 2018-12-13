@@ -1,7 +1,7 @@
 package me.hsy.pojo;
 
 /**
- * 学生实体类
+ * 学生 pojo
  *
  * @author HytonightYX
  * @date 2018/12/13 8:59

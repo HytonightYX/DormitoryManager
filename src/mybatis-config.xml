@@ -22,5 +22,6 @@
     </environments>
     <mappers>
         <mapper class="me.hsy.mapper.StudentMapper"/>
+        <mapper class="me.hsy.mapper.RoomMapper"/>
     </mappers>
 </configuration>

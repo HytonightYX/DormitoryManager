@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import me.hsy.mapper.RoomMapper;
 import me.hsy.mapper.StudentMapper;
+import me.hsy.pojo.Room;
 import me.hsy.pojo.Student;
+import me.hsy.service.RoomService;
 import me.hsy.service.StudentService;
-import me.hsy.service.StudentService.*;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -21,25 +23,34 @@ public class TestMybatis {
 
    
     public static void main(String[] args) throws IOException {
-        StudentService studentService = new StudentService();
+
         String resource = "mybatis-config.xml";
+        StudentService studentService = new StudentService();
+        RoomService roomService = new RoomService();
+
         InputStream inputStream = Resources.getResourceAsStream(resource);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
         SqlSession session = sqlSessionFactory.openSession();
-        StudentMapper mapper = session.getMapper(StudentMapper.class);
-//        CategoryMapper mapper = session.getMapper(CategoryMapper.class);
-//        add(mapper);
-//        delete(mapper);
-//        get(mapper);
-//        update(mapper);
-        List<Student> students = studentService.findStudentByName(mapper, "小猫");
+        StudentMapper studentMapper = session.getMapper(StudentMapper.class);
+        RoomMapper roomMapper = session.getMapper(RoomMapper.class);
+
+        List<Student> students = studentService.findStudentByName(studentMapper, "小猫");
         System.out.println(students.size());
         for (Student c : students) {
             System.out.println(c.getStuName() + " " + c.getStuCollege() + " " + c.getStuClass());
         }
 
-        Student student = studentService.findStudentById(mapper, 2018003);
+        List<Room> rooms = roomService.findRoomAll(roomMapper);
+        for (Room r : rooms) {
+            System.out.println(r.toString());
+        }
+
+        Student student = studentService.findStudentById(studentMapper, 2018003);
         System.out.println(student);
+
+        Room room = roomService.findRoomById(roomMapper, 102);
+        System.out.println(room);
+
 
         session.commit();
         session.close();

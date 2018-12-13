@@ -71,8 +71,4 @@ public interface StudentMapper {
      */
     @Select("select * from studentinfo where stu_name=#{stuName}")
     List<Student> findByName(String stuName);
-
-    /**
-     * 按照寝室查询
-     */
 }
