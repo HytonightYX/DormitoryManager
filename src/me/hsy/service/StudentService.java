@@ -2,13 +2,8 @@ package me.hsy.service;
 
 import me.hsy.mapper.StudentMapper;
 import me.hsy.pojo.Student;
-import org.apache.ibatis.io.Resources;
-import org.apache.ibatis.session.SqlSession;
-import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import me.hsy.util.DBHandler;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -19,6 +14,8 @@ import java.util.List;
  */
 public class StudentService {
 
+    StudentMapper studentMapper = DBHandler.getSession().getMapper(StudentMapper.class);
+
 //    private static void get(StudentMapper mapper) {
 //        Category c= mapper.get(8);
 //        System.out.println(c.getName());
@@ -27,24 +24,24 @@ public class StudentService {
 //        mapper.deleteById(1);
 //    }
 
-    public List<Student> findStudentAll(StudentMapper mapper) {
-        return mapper.findAll();
+    public List<Student> findStudentAll() {
+        return studentMapper.findAll();
     }
 
-    public Student findStudentById(StudentMapper mapper, long id) {
-        return mapper.findById(id);
+    public Student findStudentById(long id) {
+        return studentMapper.findById(id);
     }
 
-    public List<Student> findStudentByCollege(StudentMapper mapper, String stuCollege) {
-        return mapper.findByCollege(stuCollege);
+    public List<Student> findStudentByCollege(String stuCollege) {
+        return studentMapper.findByCollege(stuCollege);
     }
 
-    public List<Student> findStudentByClass(StudentMapper mapper, String stuClass) {
-        return mapper.findByClass(stuClass);
+    public List<Student> findStudentByClass(String stuClass) {
+        return studentMapper.findByClass(stuClass);
     }
 
-    public List<Student> findStudentByName(StudentMapper mapper, String stuName) {
-        return mapper.findByName(stuName);
+    public List<Student> findStudentByName(String stuName) {
+        return studentMapper.findByName(stuName);
     }
 
     //    private static void add(StudentMapper mapper) {

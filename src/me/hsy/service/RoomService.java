@@ -2,7 +2,7 @@ package me.hsy.service;
 
 import me.hsy.mapper.RoomMapper;
 import me.hsy.pojo.Room;
-import me.hsy.pojo.Student;
+import me.hsy.util.DBHandler;
 
 import java.util.List;
 
@@ -12,11 +12,14 @@ import java.util.List;
  */
 public class RoomService {
 
-    public List<Room> findRoomAll(RoomMapper mapper) {
-        return mapper.findAll();
+    RoomMapper roomMapper = DBHandler.getSession().getMapper(RoomMapper.class);
+
+
+    public List<Room> findRoomAll() {
+        return roomMapper.findAll();
     }
 
-    public Room findRoomById(RoomMapper mapper, long roomId) {
-        return mapper.findById(roomId);
+    public Room findRoomById(long roomId) {
+        return roomMapper.findById(roomId);
     }
 }
