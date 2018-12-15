@@ -14,7 +14,7 @@
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/dormitory?characterEncoding=UTF-8"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/dormitory?useSSL=false"/>
                 <property name="username" value="root"/>
                 <property name="password" value="admin"/>
             </dataSource>
@@ -23,5 +23,6 @@
     <mappers>
         <mapper class="me.hsy.mapper.StudentMapper"/>
         <mapper class="me.hsy.mapper.RoomMapper"/>
+        <mapper class="me.hsy.mapper.AdminMapper"/>
     </mappers>
 </configuration>

@@ -2,7 +2,8 @@ package me.hsy.service;
 
 import me.hsy.mapper.StudentMapper;
 import me.hsy.pojo.Student;
-import me.hsy.util.DBHandler;
+import me.hsy.util.SqlSessionFactoryUtil;
+import org.apache.ibatis.session.SqlSession;
 
 import java.util.List;
 
@@ -14,41 +15,58 @@ import java.util.List;
  */
 public class StudentService {
 
-    StudentMapper studentMapper = DBHandler.getSession().getMapper(StudentMapper.class);
-
-//    private static void get(StudentMapper mapper) {
-//        Category c= mapper.get(8);
-//        System.out.println(c.getName());
-//    }
-//    public void deleteById(StudentMapper mapper, long stuId) {
-//        mapper.deleteById(1);
-//    }
-
     public List<Student> findStudentAll() {
-        return studentMapper.findAll();
+        SqlSession sqlSession = SqlSessionFactoryUtil.openSqlSession();
+        StudentMapper studentMapper = sqlSession.getMapper(StudentMapper.class);
+
+        List<Student> students = studentMapper.findAll();
+
+        sqlSession.commit();
+        sqlSession.close();
+        return students;
     }
 
     public Student findStudentById(long id) {
-        return studentMapper.findById(id);
+        SqlSession sqlSession = SqlSessionFactoryUtil.openSqlSession();
+        StudentMapper studentMapper = sqlSession.getMapper(StudentMapper.class);
+
+        Student student = studentMapper.findById(id);
+
+        sqlSession.commit();
+        sqlSession.close();
+        return student;
     }
 
     public List<Student> findStudentByCollege(String stuCollege) {
-        return studentMapper.findByCollege(stuCollege);
+        SqlSession sqlSession = SqlSessionFactoryUtil.openSqlSession();
+        StudentMapper studentMapper = sqlSession.getMapper(StudentMapper.class);
+
+        List<Student> students = studentMapper.findByCollege(stuCollege);
+
+        sqlSession.commit();
+        sqlSession.close();
+        return students;
     }
 
     public List<Student> findStudentByClass(String stuClass) {
-        return studentMapper.findByClass(stuClass);
+        SqlSession sqlSession = SqlSessionFactoryUtil.openSqlSession();
+        StudentMapper studentMapper = sqlSession.getMapper(StudentMapper.class);
+
+        List<Student> students = studentMapper.findByClass(stuClass);
+
+        sqlSession.commit();
+        sqlSession.close();
+        return students;
     }
 
     public List<Student> findStudentByName(String stuName) {
-        return studentMapper.findByName(stuName);
-    }
+        SqlSession sqlSession = SqlSessionFactoryUtil.openSqlSession();
+        StudentMapper studentMapper = sqlSession.getMapper(StudentMapper.class);
 
-    //    private static void add(StudentMapper mapper) {
-////        Category c = new Category();
-////        c.setName("新增加的Category");
-////        mapper.add(c);
-////        listAll(mapper);
-////    }
-//
+        List<Student> students = studentMapper.findByName(stuName);
+
+        sqlSession.commit();
+        sqlSession.close();
+        return students;
+    }
 }

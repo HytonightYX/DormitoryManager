@@ -3,21 +3,32 @@ package me.hsy;
 import java.io.IOException;
 import java.util.List;
 
+import me.hsy.pojo.Admin;
 import me.hsy.pojo.Room;
 import me.hsy.pojo.Student;
+import me.hsy.service.AdminService;
 import me.hsy.service.RoomService;
 import me.hsy.service.StudentService;
 
 
 /**
+ * 测试类
  * @author hsy
  */
 public class TestMybatis {
+
    
     public static void main(String[] args) throws IOException {
+        /**
+         * 测试数据库连接
+         */
+//        new TestMybatis().testMybatis();
 
+    }
 
+    private void testMybatis() {
         StudentService studentService = new StudentService();
+        AdminService adminService = new AdminService();
         RoomService roomService = new RoomService();
 
         List<Student> students = studentService.findStudentByName("小猫");
@@ -32,37 +43,29 @@ public class TestMybatis {
             System.out.println(r.toString());
         }
 
+        List<Admin> admins = adminService.findAdminAll();
+
+        for (Admin a : admins) {
+            System.out.println(a.toString());
+        }
+
+        Admin admin = adminService.findAdminByName("admin");
+        System.out.println(admin);
+
         Student student = studentService.findStudentById(2018003);
         System.out.println(student);
 
         Room room = roomService.findRoomById(102);
         System.out.println(room);
 
+        /**
+         * 测试修改管理员密码
+         */
+        admin = adminService.findAdminByName("admin1");
+        System.out.println(admin);
+
+        adminService.updateAdminPasswordByName("admin1", "修改了2次的密码");
+        System.out.println(adminService.findAdminAll());
+        System.out.println(adminService.findAdminByName("admin1"));
     }
-  
-//    private static void update(StudentMapper mapper) {
-//        Student student = mapper.get(8);
-//        c.setName("修改了的Category名稱");
-//        mapper.update(c);
-//        listAll(mapper);
-//    }
-  
-//    private static void get(StudentMapper mapper) {
-//        Category c= mapper.get(8);
-//        System.out.println(c.getName());
-//    }
-
-//    private static void add(StudentMapper mapper) {
-//        Category c = new Category();
-//        c.setName("新增加的Category");
-//        mapper.add(c);
-//        listAll(mapper);
-//    }
-
-//    private static void listAll(StudentMapper mapper) {
-//        List<Student> cs = mapper.findByCollege("生科院");
-//        for (Student c : cs) {
-//            System.out.println(c.getStuName() + " " + c.getStuCollege() + " " + c.getStuClass());
-//        }
-//    }
 }
