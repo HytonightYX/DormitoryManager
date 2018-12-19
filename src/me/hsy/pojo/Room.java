@@ -1,5 +1,7 @@
 package me.hsy.pojo;
 
+import javafx.beans.property.SimpleLongProperty;
+
 /**
  * 寝室 pojo
  *
@@ -14,6 +16,7 @@ public class Room {
     private long bed2;
     private long bed3;
     private long bed4;
+
 
     public long getRoomId() {
         return roomId;
@@ -64,5 +67,12 @@ public class Room {
                 ", bed3=" + bed3 +
                 ", bed4=" + bed4 +
                 '}';
+    }
+
+    public static void main(String[] args) {
+        Room room = new Room();
+        room.setRoomId(102);
+        room.setBed1(421789321);
+        System.out.println(room);
     }
 }

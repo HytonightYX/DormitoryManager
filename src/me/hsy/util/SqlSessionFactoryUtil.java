@@ -12,7 +12,8 @@ import java.util.logging.Logger;
 
 /**
  * Mybatis 连接数据库工具类
- * 单例模式穿件
+ * 单例模式创建SqlSessionFactory
+ * 作用：只会在第一次连接时创建工厂，不会重复创建，提高连接效率
  *
  * @author HytonightYX
  * @date 2018/12/14 9:48

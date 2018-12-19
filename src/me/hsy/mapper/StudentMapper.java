@@ -1,9 +1,11 @@
 package me.hsy.mapper;
 
+import me.hsy.pojo.Admin;
 import me.hsy.pojo.Student;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -71,4 +73,16 @@ public interface StudentMapper {
      */
     @Select("select * from studentinfo where stu_name=#{stuName}")
     List<Student> findByName(String stuName);
+
+    /**
+     * 更新入住状态
+     * @param student
+     */
+    @Update("update studentinfo set stu_name = #{stuName}, " +
+            "stu_college = #{stuCollege}, " +
+            "stu_department = #{stuDepartment}, " +
+            "stu_class = #{stuClass}, " +
+            "is_checked = #{isChecked} " +
+            "where stu_id = #{stuId}")
+    void updateStudent(Student student);
 }

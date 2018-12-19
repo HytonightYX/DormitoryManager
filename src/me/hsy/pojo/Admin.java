@@ -1,5 +1,10 @@
 package me.hsy.pojo;
 
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 /**
  * 管理员 pojo
  *
@@ -15,6 +20,18 @@ public class Admin {
 
     /** 是否已修改密码 */
     private boolean isChanged;
+
+    public Admin() {
+        adminName = "";
+        adminPassword = "";
+        isChanged = false;
+    }
+
+    public Admin(String adminName, String adminPassword, boolean isChanged) {
+        this.adminName = adminName;
+        this.adminPassword = adminPassword;
+        this.isChanged = isChanged;
+    }
 
     public String getAdminName() {
         return adminName;
