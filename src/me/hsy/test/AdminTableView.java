@@ -1,4 +1,4 @@
-package me.hsy.Test;
+package me.hsy.test;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -19,7 +19,6 @@ import javafx.stage.Stage;
 import me.hsy.pojo.Admin;
 import me.hsy.pojo.Student;
 import me.hsy.service.AdminService;
-import me.hsy.service.StudentService;
 
 import java.util.List;
 

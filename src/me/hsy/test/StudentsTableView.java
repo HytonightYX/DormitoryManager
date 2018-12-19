@@ -1,8 +1,6 @@
-package me.hsy.Test;
+package me.hsy.test;
 
 import javafx.application.Application;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -19,9 +17,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import me.hsy.pojo.Room;
 import me.hsy.pojo.Student;
-import me.hsy.service.RoomService;
 import me.hsy.service.StudentService;
 
 /**

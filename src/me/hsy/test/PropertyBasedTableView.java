@@ -1,4 +1,4 @@
-package me.hsy.Test;
+package me.hsy.test;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;

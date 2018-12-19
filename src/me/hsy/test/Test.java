@@ -1,11 +1,8 @@
-package me.hsy.Test;
+package me.hsy.test;
    
 import java.io.IOException;
-import java.util.List;
 
 import me.hsy.pojo.Admin;
-import me.hsy.pojo.Room;
-import me.hsy.pojo.Student;
 import me.hsy.service.AdminService;
 import me.hsy.service.RoomService;
 import me.hsy.service.StudentService;

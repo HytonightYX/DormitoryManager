@@ -1,4 +1,4 @@
-package me.hsy.Test;
+package me.hsy.test;
  
 import java.util.List;
 import java.util.ArrayList;

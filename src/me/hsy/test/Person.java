@@ -1,4 +1,4 @@
-package me.hsy.Test;
+package me.hsy.test;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

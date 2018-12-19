@@ -1,4 +1,4 @@
-package me.hsy.Test;
+package me.hsy.test;
 
 import java.util.Random;
 import java.util.function.Function;
