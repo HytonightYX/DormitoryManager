@@ -1,5 +1,9 @@
 package me.hsy.pojo;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+
+
 /**
  * 学生 pojo
  *
@@ -25,6 +29,12 @@ public class Student {
 
     /** 入住状态 */
     private boolean isChecked;
+
+    /** 入住时间 */
+    private Timestamp checkInTime;
+
+    /** 退房时间 */
+    private Timestamp checkOutTime;
 
     public long getStuId() {
         return stuId;
@@ -74,6 +84,22 @@ public class Student {
         isChecked = checked;
     }
 
+    public Timestamp getCheckInTime() {
+        return checkInTime;
+    }
+
+    public void setCheckInTime(Timestamp checkInTime) {
+        this.checkInTime = checkInTime;
+    }
+
+    public Timestamp getCheckOutTime() {
+        return checkOutTime;
+    }
+
+    public void setCheckOutTime(Timestamp checkOutTime) {
+        this.checkOutTime = checkOutTime;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -83,6 +109,8 @@ public class Student {
                 ", stuDepartment='" + stuDepartment + '\'' +
                 ", stuClass='" + stuClass + '\'' +
                 ", isChecked=" + isChecked +
+                ", checkInTime=" + checkInTime +
+                ", checkOutTime=" + checkOutTime +
                 '}';
     }
 }

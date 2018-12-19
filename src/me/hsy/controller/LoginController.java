@@ -14,6 +14,7 @@ import me.hsy.MainApp;
 import me.hsy.pojo.Admin;
 import me.hsy.service.AdminService;
 import me.hsy.util.AlertInfoUtil;
+import me.hsy.util.CurrentAdminUtil;
 
 /**
  * Login控制器
@@ -63,6 +64,12 @@ public class LoginController {
                     Parent parent = FXMLLoader.load(getClass().getResource("../view/ResetPassword.fxml"));
                     Scene scene = new Scene(parent);
                     MainApp.primaryStage.setScene(scene);
+                } else {
+                    // 前往到管理员界面
+                    CurrentAdminUtil.setCurrentAdmin(admin);
+                    Parent parent = FXMLLoader.load(getClass().getResource("../view/AdminSystem.fxml"));
+                    Scene scene = new Scene(parent);
+                    MainApp.primaryStage.setScene(scene);
                 }
             } else {
                 new AlertInfoUtil("提示",
@@ -92,7 +99,7 @@ public class LoginController {
         assert resetPasswordBtn != null : "fx:id=\"resetPasswordBtn\" was not injected: check your FXML file 'Login.fxml'.";
         assert adminPasswordTf != null : "fx:id=\"adminPassword\" was not injected: check your FXML file 'Login.fxml'.";
 
-        adminNameTf.setText("");
+        adminNameTf.setText(CurrentAdminUtil.getCurrentAdmin().getAdminName());
         adminPasswordTf.setText("");
     }
 }

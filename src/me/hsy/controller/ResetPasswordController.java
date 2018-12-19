@@ -11,11 +11,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.InputMethodEvent;
 import me.hsy.MainApp;
 import me.hsy.pojo.Admin;
 import me.hsy.service.AdminService;
+import me.hsy.util.CurrentAdminUtil;
 
 /**
  * 修改密码控制器
@@ -38,16 +40,16 @@ public class ResetPasswordController {
     private TextField adminNameTf;
 
     @FXML
-    private TextField adminPasswordTf;
+    private PasswordField adminPasswordTf;
 
     @FXML
     private Button cancelBtn;
 
     @FXML
-    private TextField newPwd;
+    private PasswordField newPwd;
 
     @FXML
-    private TextField confirmPwd;
+    private PasswordField confirmPwd;
 
     @FXML
     private Button confirmBtn;
@@ -149,7 +151,7 @@ public class ResetPasswordController {
         adminName = "";
         oldPassword = "";
 
-        adminNameTf.setText("");
+        adminNameTf.setText(CurrentAdminUtil.getCurrentAdmin().getAdminName());
         adminPasswordTf.setText("");
         newPwd.setText("");
         confirmPwd.setText("");

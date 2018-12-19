@@ -82,7 +82,12 @@ public interface StudentMapper {
             "stu_college = #{stuCollege}, " +
             "stu_department = #{stuDepartment}, " +
             "stu_class = #{stuClass}, " +
-            "is_checked = #{isChecked} " +
+            "is_checked = #{isChecked}, " +
+            "check_in_time = #{checkInTime, jdbcType=TIMESTAMP}, " +
+            "check_out_time = #{checkOutTime, jdbcType=TIMESTAMP} " +
             "where stu_id = #{stuId}")
     void updateStudent(Student student);
+
+
+
 }

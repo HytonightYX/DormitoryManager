@@ -25,4 +25,11 @@ public interface RoomMapper {
      */
     @Select("select * from roominfo where room_id=#{roomId}")
     Room findById(long roomId);
+
+    /**
+     * 模糊查找寝室
+     * @return
+     */
+    @Select("select * from roominfo where room_id LIKE CONCAT(CONCAT('%', #{text}), '%')")
+    List<Room> findByFuzzyKey(long key);
 }
