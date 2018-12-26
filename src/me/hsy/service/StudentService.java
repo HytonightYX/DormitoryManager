@@ -1,7 +1,9 @@
 package me.hsy.service;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import me.hsy.mapper.RoomMapper;
 import me.hsy.mapper.StudentMapper;
+import me.hsy.pojo.Room;
 import me.hsy.pojo.Student;
 import me.hsy.util.SqlSessionFactoryUtil;
 import org.apache.ibatis.session.SqlSession;
@@ -11,13 +13,17 @@ import java.sql.Timestamp;
 import java.util.List;
 
 /**
- * student 业务层
+ * student service层
  *
  * @author HytonightYX
  * @date 2018/12/13 20:56
  */
 public class StudentService {
 
+    /**
+     * 获取全体学生列表
+     * @return students
+     */
     public List<Student> findStudentAll() {
         SqlSession sqlSession = SqlSessionFactoryUtil.openSqlSession();
         StudentMapper studentMapper = sqlSession.getMapper(StudentMapper.class);
@@ -29,6 +35,11 @@ public class StudentService {
         return students;
     }
 
+    /**
+     * 通过学号查找学生（唯一）
+     * @param id
+     * @return student
+     */
     public Student findStudentById(long id) {
         SqlSession sqlSession = SqlSessionFactoryUtil.openSqlSession();
         StudentMapper studentMapper = sqlSession.getMapper(StudentMapper.class);
@@ -40,6 +51,11 @@ public class StudentService {
         return student;
     }
 
+    /**
+     * 通过学院查找学生列表
+     * @param stuCollege
+     * @return students
+     */
     public List<Student> findStudentByCollege(String stuCollege) {
         SqlSession sqlSession = SqlSessionFactoryUtil.openSqlSession();
         StudentMapper studentMapper = sqlSession.getMapper(StudentMapper.class);
@@ -51,6 +67,11 @@ public class StudentService {
         return students;
     }
 
+    /**
+     * 通过班级查找学生列表
+     * @param stuClass
+     * @return students
+     */
     public List<Student> findStudentByClass(String stuClass) {
         SqlSession sqlSession = SqlSessionFactoryUtil.openSqlSession();
         StudentMapper studentMapper = sqlSession.getMapper(StudentMapper.class);
@@ -62,6 +83,11 @@ public class StudentService {
         return students;
     }
 
+    /**
+     * 通过姓名查找学生列表
+     * @param stuName
+     * @return students
+     */
     public List<Student> findStudentByName(String stuName) {
         SqlSession sqlSession = SqlSessionFactoryUtil.openSqlSession();
         StudentMapper studentMapper = sqlSession.getMapper(StudentMapper.class);
@@ -92,10 +118,11 @@ public class StudentService {
      * 学生办理入住
      * @param id
      */
-    public void studentCheckInById(long id) {
+    public void studentCheckInById(long id , long roomId, String bedNumber) {
         SqlSession sqlSession = SqlSessionFactoryUtil.openSqlSession();
         StudentMapper studentMapper = sqlSession.getMapper(StudentMapper.class);
 
+        /** 修改学生表 */
         Student student = studentMapper.findById(id);
         student.setChecked(true);
 
@@ -106,6 +133,21 @@ public class StudentService {
         student.setCheckOutTime(null);
 
         studentMapper.updateStudent(student);
+
+        /** 修改寝室表 */
+        RoomMapper  roomMapper = sqlSession.getMapper(RoomMapper.class);
+        Room room = roomMapper.findById(roomId);
+        if ("床位一".equals(bedNumber)) {
+            room.setBed1(id);
+        } else if ("床位二".equals(bedNumber)) {
+            room.setBed2(id);
+        } else if ("床位三".equals(bedNumber)) {
+            room.setBed3(id);
+        } else if ("床位四".equals(bedNumber)) {
+            room.setBed4(id);
+        }
+
+        roomMapper.updateRoom(room);
 
         sqlSession.commit();
         sqlSession.close();
@@ -123,23 +165,5 @@ public class StudentService {
 
         sqlSession.commit();
         sqlSession.close();
-    }
-
-    /**
-     * 测试用
-     * @param args
-     */
-    public static void main(String[] args) {
-        Student student = new Student();
-        student.setStuId(2018001);
-        student.setStuName("大猫222");
-        student.setStuCollege("生科院222");
-        student.setStuDepartment("生物化学2222");
-        student.setStuClass("生化1812");
-
-        System.out.println(student);
-
-        new StudentService().studentCheckInById(2018001);
-        System.out.println(new StudentService().findStudentById(2018001));
     }
 }

@@ -13,6 +13,7 @@ import static javafx.application.Application.launch;
  * @date 2018/12/17 22:09
  */
 public class MainApp extends Application {
+    /** 这个primaryStage当做全局变量用 */
     public static Stage primaryStage;
 
     public static void main(String[] args) {

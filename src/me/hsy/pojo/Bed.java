@@ -1,37 +1,29 @@
 package me.hsy.pojo;
 
-import me.hsy.service.StudentService;
-
+/**
+ *
+ *
+ * @author HytonightYX
+ */
 public class Bed {
     private String bedNumber;
-    private String sid = "";
-    private String sname = "";
-    private String scollege = "";
-    private String sclass = "";
-    private String scheckInTime = "";
-    private Student student = null;
+    private String sid;
+    private String sname;
+    private String scollege;
+    private String sclass;
+    private String scheckInTime;
 
     /**
-     * 有参构造方法一，该床位存在学生
-     * @param bedNumber
-     * @param id
-     */
-    public Bed(String bedNumber, Long id) {
-        student = new StudentService().findStudentById(id);
-        this.bedNumber = bedNumber;
-        this.sid = String.valueOf(student.getStuId());
-        this.sname = student.getStuName();
-        this.scollege = student.getStuCollege();
-        this.sclass = student.getStuClass();
-        this.scheckInTime = String.valueOf(student.getCheckInTime());
-    }
-
-    /**
-     * 有参构造方法二，该床位暂时无人住
+     * 有参构造方法，该床位暂时无人住
      * @param bedNumber
      */
     public Bed(String bedNumber) {
         this.bedNumber = bedNumber;
+        sid = "";
+        sname = "";
+        scollege = "";
+        sclass = "";
+        scheckInTime = "";
     }
 
     public String getBedNumber() {
@@ -82,5 +74,15 @@ public class Bed {
         this.scheckInTime = scheckInTime;
     }
 
-
+    @Override
+    public String toString() {
+        return "Bed{" +
+                "bedNumber='" + bedNumber + '\'' +
+                ", sid='" + sid + '\'' +
+                ", sname='" + sname + '\'' +
+                ", scollege='" + scollege + '\'' +
+                ", sclass='" + sclass + '\'' +
+                ", scheckInTime='" + scheckInTime + '\'' +
+                '}';
+    }
 }

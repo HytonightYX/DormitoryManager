@@ -2,6 +2,7 @@ package me.hsy.mapper;
 
 import me.hsy.pojo.Room;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -32,4 +33,16 @@ public interface RoomMapper {
      */
     @Select("select * from roominfo where room_id LIKE CONCAT(CONCAT('%', #{text}), '%')")
     List<Room> findByFuzzyKey(long key);
+
+    /**
+     * 更新寝室状态
+     * @param room
+     */
+    @Update("update roominfo set " +
+            "bed1 = #{bed1}, " +
+            "bed2 = #{bed2}, " +
+            "bed3 = #{bed3}, " +
+            "bed4 = #{bed4} " +
+            "where room_id = #{roomId}")
+    void updateRoom(Room room);
 }

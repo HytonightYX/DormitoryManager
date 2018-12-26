@@ -103,7 +103,49 @@ public class AdminSystemController {
     private Button resetBtn;
 
     @FXML
+    private Button checkInTabSearchBtn;
+
+    @FXML
     private TextField roomIdTf;
+
+    @FXML
+    private TextField checkInTabStuDepartmentTf;
+
+    @FXML
+    private TextField checkInTabStuIdTf;
+
+    @FXML
+    private TextField checkOutTabStuDepartmentTf;
+
+    @FXML
+    private TextField checkInTabStuClassTf;
+
+    @FXML
+    private TextField checkOutTabcheckOutTimeTf;
+
+    @FXML
+    private TextField checkOutTabStuClassTf;
+
+    @FXML
+    private TextField checkInTabCheckInTimeTf;
+
+    @FXML
+    private TextField checkOutTabStuIdTf;
+
+    @FXML
+    private TextField checkOutTabStuCollegeTf;
+
+    @FXML
+    private TextField checkInTabStuCollegeTf;
+
+    @FXML
+    private TextField checkOutTabStuNameTf;
+
+    @FXML
+    private TextField checkInTabStuNameTf;
+
+    @FXML
+    private TextField checkOutTabcheckInTimeTf;
 
     @FXML
     private Label studentInfoLabel;
@@ -275,6 +317,53 @@ public class AdminSystemController {
 
     }
 
+    /**
+     * 设定入住Tab信息
+     */
+    public void setCheckOutTab(Student student) {
+        if (student != null) {
+            String time = LocalDateTime.now().toString().replace('T', ' ');
+            checkOutTabStuIdTf.setText(String.valueOf(student.getStuId()));
+            checkOutTabStuNameTf.setText(student.getStuName());
+            checkOutTabStuClassTf.setText(student.getStuClass());
+            checkOutTabStuCollegeTf.setText(student.getStuCollege());
+            checkOutTabStuDepartmentTf.setText(student.getStuDepartment());
+            checkOutTabcheckInTimeTf.setText(student.getCheckInTime().toString());
+            checkOutTabcheckOutTimeTf.setText(time.substring(0, time.length() - 4));
+        }
+    }
+
+    @FXML
+    void checkInTabSearchById(ActionEvent event) {
+        try {
+            Long id = Long.parseLong(checkInTabStuIdTf.getText());
+            Student student = studentService.findStudentById(id);
+            if (student != null) {
+                String time = LocalDateTime.now().toString().replace('T', ' ');
+                checkInTabStuNameTf.setText(student.getStuName());
+                checkInTabStuClassTf.setText(student.getStuClass());
+                checkInTabStuCollegeTf.setText(student.getStuCollege());
+                checkInTabStuDepartmentTf.setText(student.getStuDepartment());
+                checkInTabCheckInTimeTf.setText(time.substring(0, time.length() - 4));
+            } else {
+                new AlertInfoUtil("提示","该学号不存在").showAndWait();
+                System.out.println("用户输入了不存在的学号，已提醒");
+            }
+        } catch (NumberFormatException e) {
+            new AlertInfoUtil("警告","请输入正确的学号").showAndWait();
+            System.out.println("用户输入了不合法的值，已警告");
+        }
+    }
+
+    @FXML
+    void checkInTabConfirm(ActionEvent event) {
+
+    }
+
+    @FXML
+    void checkOutTabConfirm(ActionEvent event) {
+
+    }
 
 
     @FXML
@@ -328,9 +417,38 @@ public class AdminSystemController {
                         && event.getClickCount() == 1) {
 
                     Bed clickedRow = row.getItem();
-                    System.out.println("用户选中了" + clickedRow);
+                    System.out.println("用户选中了" + clickedRow.toString());
 
-
+                    // 入住和退房Tab只能且自动二选一
+                    if (clickedRow.getSid() == null) {
+                        // 如果该床位没人，那么只能办理入住
+                        checkInTab.setDisable(false);
+                        checkOutTab.setDisable(true);
+                        System.out.println("该床位没人，那么只能办理入住");
+                    } else {
+                        try {
+                            // 如果该床位有有效学号， 那么只能办理退房
+                            String tmp = clickedRow.getSid();
+                            tmp = "".equals(tmp)?"0" : tmp;
+                            Long id = Long.parseLong(tmp);
+                            Student student = studentService.findStudentById(id);
+                            if (student != null) {
+                                // 设定只允许退房且自动填充信息
+                                checkInTab.setDisable(true);
+                                checkOutTab.setDisable(false);
+                                setCheckOutTab(student);
+                                System.out.println("该床位有有效学号， 只能办理退房");
+                            } else {
+                                // 学号存在但是不合法
+                                throw new NumberFormatException();
+                            }
+                        } catch (NumberFormatException nfe) {
+                            // 如果该床位学号不合法，则两个Tab均屏蔽
+                            checkInTab.setDisable(true);
+                            checkOutTab.setDisable(true);
+                            System.out.println("学生信息不合法， 请检查数据库！");
+                        }
+                    }
                 }
             });
             return row;

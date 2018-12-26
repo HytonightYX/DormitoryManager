@@ -8,11 +8,12 @@ import org.apache.ibatis.session.SqlSession;
 import java.util.List;
 
 /**
+ * admin service层
+ *
  * @author HytonightYX
  * @date 2018/12/14 13:28
  */
 public class AdminService {
-
     /**
      * 根据管理员名称查询管理员
      * @param adminName
@@ -60,6 +61,4 @@ public class AdminService {
         sqlSession.commit();
         sqlSession.close();
     }
-
-
 }

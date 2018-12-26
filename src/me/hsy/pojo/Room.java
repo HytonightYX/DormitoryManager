@@ -1,7 +1,5 @@
 package me.hsy.pojo;
 
-import javafx.beans.property.SimpleLongProperty;
-
 /**
  * 寝室 pojo
  *
