@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.hsy.pojo">
+    <select id="queryStudent" resultType="Student">
+            select * from studentinfo where 1 = 1
+            <if test="stuName != null">
+                and stu_name = #{stuName}
+            </if>
+            <if test="stuCollege != null">
+                and stu_college = #{stuCollege}
+            </if>
+            <if test="stuDepartment != null">
+                and stu_department = #{stuDepartment}
+            </if>
+            <if test="stuClass != null">
+                and stu_class = #{stuClass}
+            </if>
+        </select>
+</mapper>

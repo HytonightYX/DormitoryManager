@@ -1,15 +1,10 @@
 package me.hsy.controller;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.URL;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Month;
 import java.util.*;
 
-
-import com.sun.deploy.uitoolkit.impl.fx.ui.FXConsole;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -25,7 +20,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.util.Duration;
 import me.hsy.MainApp;
-import me.hsy.pojo.Admin;
 import me.hsy.pojo.Bed;
 import me.hsy.pojo.Room;
 import me.hsy.pojo.Student;
@@ -34,7 +28,7 @@ import me.hsy.service.RoomService;
 import me.hsy.service.StudentService;
 import me.hsy.util.AlertInfoUtil;
 import me.hsy.util.CurrentAdminUtil;
-import org.apache.ibatis.jdbc.Null;
+
 
 /**
  * @author HytonightYX
@@ -61,6 +55,12 @@ public class AdminSystemController {
     private int second;
     private int minute;
     private int hour;
+
+    /** 当前选中的房间号，床位号，学生学号 */
+    private long selectedRoomId;
+    private String selectedBedNumber;
+    private long selectedStuId;
+
 
 
     @FXML
@@ -303,36 +303,26 @@ public class AdminSystemController {
     }
 
     /**
-     * 办理入住方法
-     */
-    public void checkIn() {
-
-    }
-
-
-    /**
-     * 办理退房方法
-     */
-    public void checkOut() {
-
-    }
-
-    /**
-     * 设定入住Tab信息
+     * 设定退房Tab信息
      */
     public void setCheckOutTab(Student student) {
         if (student != null) {
             String time = LocalDateTime.now().toString().replace('T', ' ');
+            String checkInTime = student.getCheckInTime().toString();
             checkOutTabStuIdTf.setText(String.valueOf(student.getStuId()));
             checkOutTabStuNameTf.setText(student.getStuName());
             checkOutTabStuClassTf.setText(student.getStuClass());
             checkOutTabStuCollegeTf.setText(student.getStuCollege());
             checkOutTabStuDepartmentTf.setText(student.getStuDepartment());
-            checkOutTabcheckInTimeTf.setText(student.getCheckInTime().toString());
+            checkOutTabcheckInTimeTf.setText(checkInTime.substring(0, checkInTime.length() - 2));
             checkOutTabcheckOutTimeTf.setText(time.substring(0, time.length() - 4));
         }
     }
 
+    /**
+     * 右侧入住Tab，通过id查找并填充学生信息
+     * @param event
+     */
     @FXML
     void checkInTabSearchById(ActionEvent event) {
         try {
@@ -345,6 +335,7 @@ public class AdminSystemController {
                 checkInTabStuCollegeTf.setText(student.getStuCollege());
                 checkInTabStuDepartmentTf.setText(student.getStuDepartment());
                 checkInTabCheckInTimeTf.setText(time.substring(0, time.length() - 4));
+                selectedStuId = student.getStuId();
             } else {
                 new AlertInfoUtil("提示","该学号不存在").showAndWait();
                 System.out.println("用户输入了不存在的学号，已提醒");
@@ -355,16 +346,31 @@ public class AdminSystemController {
         }
     }
 
+    /**
+     * 确认入住按钮事件
+     * @param event
+     */
     @FXML
     void checkInTabConfirm(ActionEvent event) {
-
+        studentService.studentCheckInById(selectedStuId, selectedRoomId, selectedBedNumber);
+        checkInTab.setDisable(true);
+        checkOutTab.setDisable(true);
+        flash4BedTable(roomService.findRoomById(selectedRoomId));
+        flashRoomTable();
     }
 
+    /**
+     * 确认退房按钮事件
+     * @param event
+     */
     @FXML
     void checkOutTabConfirm(ActionEvent event) {
-
+        studentService.studentCheckOutById(selectedStuId, selectedRoomId, selectedBedNumber);
+        checkInTab.setDisable(true);
+        checkOutTab.setDisable(true);
+        flash4BedTable(roomService.findRoomById(selectedRoomId));
+        flashRoomTable();
     }
-
 
     @FXML
     void initialize() {
@@ -400,8 +406,8 @@ public class AdminSystemController {
                         && event.getClickCount() == 1) {
 
                     Room clickedRow = row.getItem();
+                    selectedRoomId = clickedRow.getRoomId();
                     System.out.println("用户选中了" + clickedRow);
-
                     /* 用户选中之后要刷新右侧寝室详情列表 */
                     flash4BedTable(clickedRow);
                 }
@@ -417,10 +423,11 @@ public class AdminSystemController {
                         && event.getClickCount() == 1) {
 
                     Bed clickedRow = row.getItem();
+                    selectedBedNumber = clickedRow.getBedNumber();
                     System.out.println("用户选中了" + clickedRow.toString());
 
                     // 入住和退房Tab只能且自动二选一
-                    if (clickedRow.getSid() == null) {
+                    if ("".equals(clickedRow.getSid())) {
                         // 如果该床位没人，那么只能办理入住
                         checkInTab.setDisable(false);
                         checkOutTab.setDisable(true);
@@ -437,6 +444,7 @@ public class AdminSystemController {
                                 checkInTab.setDisable(true);
                                 checkOutTab.setDisable(false);
                                 setCheckOutTab(student);
+                                selectedStuId = student.getStuId();
                                 System.out.println("该床位有有效学号， 只能办理退房");
                             } else {
                                 // 学号存在但是不合法
@@ -446,6 +454,7 @@ public class AdminSystemController {
                             // 如果该床位学号不合法，则两个Tab均屏蔽
                             checkInTab.setDisable(true);
                             checkOutTab.setDisable(true);
+                            new AlertInfoUtil("警告","选中床位信息不合法，请检查数据库！").showAndWait();
                             System.out.println("学生信息不合法， 请检查数据库！");
                         }
                     }

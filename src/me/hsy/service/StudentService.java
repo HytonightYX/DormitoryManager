@@ -122,11 +122,11 @@ public class StudentService {
         SqlSession sqlSession = SqlSessionFactoryUtil.openSqlSession();
         StudentMapper studentMapper = sqlSession.getMapper(StudentMapper.class);
 
-        /** 修改学生表 */
+        /* 修改学生表 */
         Student student = studentMapper.findById(id);
         student.setChecked(true);
 
-        /** 获取系统当前时间戳 */
+        /* 获取系统当前时间戳 */
         Timestamp ts = new Timestamp(System.currentTimeMillis());
         ts.setNanos(0);
         student.setCheckInTime(ts);
@@ -134,17 +134,57 @@ public class StudentService {
 
         studentMapper.updateStudent(student);
 
-        /** 修改寝室表 */
+        /* 修改寝室表 */
         RoomMapper  roomMapper = sqlSession.getMapper(RoomMapper.class);
         Room room = roomMapper.findById(roomId);
-        if ("床位一".equals(bedNumber)) {
+        if ("一号床".equals(bedNumber)) {
             room.setBed1(id);
-        } else if ("床位二".equals(bedNumber)) {
+        } else if ("二号床".equals(bedNumber)) {
             room.setBed2(id);
-        } else if ("床位三".equals(bedNumber)) {
+        } else if ("三号床".equals(bedNumber)) {
             room.setBed3(id);
-        } else if ("床位四".equals(bedNumber)) {
+        } else if ("四号床".equals(bedNumber)) {
             room.setBed4(id);
+        }
+
+        roomMapper.updateRoom(room);
+
+        sqlSession.commit();
+        sqlSession.close();
+    }
+
+    /**
+     * 学生办理退房
+     * @param id
+     * @param roomId
+     * @param bedNumber
+     */
+    public void studentCheckOutById(long id , long roomId, String bedNumber) {
+        SqlSession sqlSession = SqlSessionFactoryUtil.openSqlSession();
+        StudentMapper studentMapper = sqlSession.getMapper(StudentMapper.class);
+
+        /* 修改学生表 */
+        Student student = studentMapper.findById(id);
+        student.setChecked(false);
+
+        /* 获取系统当前时间戳 */
+        Timestamp ts = new Timestamp(System.currentTimeMillis());
+        ts.setNanos(0);
+        student.setCheckOutTime(ts);
+
+        studentMapper.updateStudent(student);
+
+        /* 修改寝室表 */
+        RoomMapper roomMapper = sqlSession.getMapper(RoomMapper.class);
+        Room room = roomMapper.findById(roomId);
+        if ("一号床".equals(bedNumber)) {
+            room.setBed1(0);
+        } else if ("二号床".equals(bedNumber)) {
+            room.setBed2(0);
+        } else if ("三号床".equals(bedNumber)) {
+            room.setBed3(0);
+        } else if ("四号床".equals(bedNumber)) {
+            room.setBed4(0);
         }
 
         roomMapper.updateRoom(room);
