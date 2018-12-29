@@ -21,6 +21,7 @@
         </environment>
     </environments>
     <mappers>
+        <mapper resource="me/hsy/mapper/StudentMapping.xml"/>
         <mapper class="me.hsy.mapper.StudentMapper"/>
         <mapper class="me.hsy.mapper.RoomMapper"/>
         <mapper class="me.hsy.mapper.AdminMapper"/>

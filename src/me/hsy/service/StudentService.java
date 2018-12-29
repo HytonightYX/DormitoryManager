@@ -1,6 +1,5 @@
 package me.hsy.service;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import me.hsy.mapper.RoomMapper;
 import me.hsy.mapper.StudentMapper;
 import me.hsy.pojo.Room;
@@ -8,7 +7,6 @@ import me.hsy.pojo.Student;
 import me.hsy.util.SqlSessionFactoryUtil;
 import org.apache.ibatis.session.SqlSession;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -206,4 +204,27 @@ public class StudentService {
         sqlSession.commit();
         sqlSession.close();
     }
+
+    /**
+     * 多条件查询
+     * 应用于第二页面
+     * @param student
+     */
+    public List<Student> queryStudent(Student student) {
+        SqlSession sqlSession = SqlSessionFactoryUtil.openSqlSession();
+
+        List<Student> studentList = sqlSession.selectList("queryStudent", student);
+
+        sqlSession.commit();
+        sqlSession.close();
+
+        return studentList;
+    }
+
+    /**
+     *
+     *
+     *
+     * 昨天写到这里
+     */
 }

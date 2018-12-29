@@ -61,8 +61,6 @@ public class AdminSystemController {
     private String selectedBedNumber;
     private long selectedStuId;
 
-
-
     @FXML
     private ResourceBundle resources;
 
@@ -184,6 +182,31 @@ public class AdminSystemController {
     private TableColumn<Bed, String> scheckInTimeCol;
 
     @FXML
+    private TextField infoTabStuIdTf;
+
+    @FXML
+    private TextField infoTabStuNameTf;
+
+    @FXML
+    private ChoiceBox infoTabStuCollegeCb;
+
+    @FXML
+    private ChoiceBox infoTabStuDCb;
+
+    @FXML
+    private ChoiceBox infoTabStuClassCb;
+
+    @FXML
+    private ChoiceBox infoTabCheckedCb;
+
+    @FXML
+    private TextField infoTabRoomIdTf;
+
+
+
+
+
+    @FXML
     void searchRoom(ActionEvent event) {
         String num = roomIdTf.getText();
         // 确保输入框中输入了内容
@@ -303,6 +326,13 @@ public class AdminSystemController {
     }
 
     /**
+     * 设定所有ChoiceBox
+     */
+    public void setChoiceBoxAll() {
+
+    }
+
+    /**
      * 设定退房Tab信息
      */
     public void setCheckOutTab(Student student) {
@@ -370,6 +400,60 @@ public class AdminSystemController {
         checkOutTab.setDisable(true);
         flash4BedTable(roomService.findRoomById(selectedRoomId));
         flashRoomTable();
+    }
+
+    /**
+     * 学生查询条件重置
+     * @param event
+     */
+    @FXML
+    void infoTabStuReset(ActionEvent event) {
+
+    }
+
+    /**
+     * 根据学生条件查询学生列表并显示
+     * @param event
+     */
+    @FXML
+    void infoTabStuQuery(ActionEvent event) {
+
+    }
+
+    /**
+     * 寝室查询条件重置
+     * @param event
+     */
+    @FXML
+    void infoTabRoomReset(ActionEvent event) {
+
+    }
+
+    /**
+     * 根据寝室条件查询学生列表并显示
+     * @param event
+     */
+    @FXML
+    void infoTabRoomQuery(ActionEvent event) {
+
+    }
+
+    /**
+     * 备份数据库到指定位置
+     * @param event
+     */
+    @FXML
+    void backupDB(ActionEvent event) {
+
+    }
+
+    /**
+     * 导出Excel报表
+     * @param event
+     */
+    @FXML
+    void exportExcel(ActionEvent event) {
+
     }
 
     @FXML
@@ -465,6 +549,10 @@ public class AdminSystemController {
 
         // 创建4张床位
         init4Bed();
+
+        // 屏蔽入住退房Tab防止用户误操作
+        checkInTab.setDisable(true);
+        checkOutTab.setDisable(true);
 
         assert signOutBtn != null : "fx:id=\"signOutBtn\" was not injected: check your FXML file 'AdminSystem.fxml'.";
         assert timeInfoLabel != null : "fx:id=\"timeInfoLabel\" was not injected: check your FXML file 'AdminSystem.fxml'.";

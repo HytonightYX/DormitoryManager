@@ -89,5 +89,16 @@ public interface StudentMapper {
     void updateStudent(Student student);
 
 
+    /**
+     * 通过college/class/department来分类
+     * @return
+     */
+    @Select("select * from studentinfo GROUP BY stu_college")
+    List<Student> groupByCollege();
 
+    @Select("select * from studentinfo GROUP BY stu_class")
+    List<Student> groupByClass();
+
+    @Select("select * from studentinfo GROUP BY stu_department")
+    List<Student> groupByDepartment();
 }
