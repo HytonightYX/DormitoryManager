@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.util.Duration;
 import me.hsy.MainApp;
@@ -34,6 +35,7 @@ import me.hsy.util.CurrentAdminUtil;
  * @author HytonightYX
  */
 public class AdminSystemController {
+
     /** 各个service层实例，用来调用各种数据操作方法 */
     private AdminService adminService = new AdminService();
     private RoomService roomService = new RoomService();
@@ -60,6 +62,12 @@ public class AdminSystemController {
     private long selectedRoomId;
     private String selectedBedNumber;
     private long selectedStuId;
+
+    @FXML
+    private Button infoTabStuResetBtn;
+
+    @FXML
+    private Button infoTabStuQueryBtn;
 
     @FXML
     private ResourceBundle resources;
@@ -202,9 +210,8 @@ public class AdminSystemController {
     @FXML
     private TextField infoTabRoomIdTf;
 
-
-
-
+    @FXML
+    private ImageView backupDBIco;
 
     @FXML
     void searchRoom(ActionEvent event) {
@@ -478,6 +485,8 @@ public class AdminSystemController {
         scollegeCol.setCellValueFactory(new PropertyValueFactory<>("scollege"));
         sclassCol.setCellValueFactory(new PropertyValueFactory<>("sclass"));
         scheckInTimeCol.setCellValueFactory(new PropertyValueFactory<>("scheckInTime"));
+
+
 
         /* 刷新列表内容 */
         flashRoomTable();

@@ -406,14 +406,14 @@
                      <center>
                         <TableView prefHeight="785.0" prefWidth="913.0" BorderPane.alignment="CENTER">
                           <columns>
-                            <TableColumn prefWidth="100.0" text="学号" />
-                            <TableColumn prefWidth="100.0" text="姓名" />
-                              <TableColumn prefWidth="100.0" text="学院" />
-                              <TableColumn prefWidth="100.0" text="专业" />
-                              <TableColumn prefWidth="100.0" text="班级" />
-                              <TableColumn prefWidth="100.0" text="是否入住" />
-                              <TableColumn prefWidth="145.0" text="入住时间" />
-                              <TableColumn prefWidth="145.0" text="退房时间" />
+                            <TableColumn fx:id="idCol" prefWidth="100.0" text="学号" />
+                            <TableColumn fx:id="nameCol" prefWidth="100.0" text="姓名" />
+                              <TableColumn fx:id="collegeCol" prefWidth="100.0" text="学院" />
+                              <TableColumn fx:id="departmentCol" prefWidth="100.0" text="专业" />
+                              <TableColumn fx:id="classCol" prefWidth="100.0" text="班级" />
+                              <TableColumn fx:id="checkedCol" prefWidth="100.0" text="是否入住" />
+                              <TableColumn fx:id="inTimeCol" prefWidth="145.0" text="入住时间" />
+                              <TableColumn fx:id="outTimeCol" prefWidth="145.0" text="退房时间" />
                           </columns>
                         </TableView>
                      </center>
@@ -593,15 +593,15 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ImageView fx:id="backupDBIco" fitHeight="78.0" fitWidth="78.0" layoutX="52.0" layoutY="44.0" onMouseClicked="#backupDB" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="backupDBIco" fitHeight="78.0" fitWidth="78.0" layoutX="52.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../images/Database.png" />
+                              <Image url="@../../../../resources/images/Database.png" />
                            </image>
                         </ImageView>
                         <Label layoutX="61.0" layoutY="129.0" text="备份数据库" />
-                        <ImageView fx:id="exportExcelIco" fitHeight="78.0" fitWidth="78.0" layoutX="170.0" layoutY="44.0" onMouseClicked="#exportExcel" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="exportExcelIco" fitHeight="78.0" fitWidth="78.0" layoutX="170.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../images/Excel.png" />
+                              <Image url="@../../../../resources/images/Excel.png" />
                            </image>
                         </ImageView>
                         <Label layoutX="165.0" layoutY="129.0" text="导出为Excel表格" />
