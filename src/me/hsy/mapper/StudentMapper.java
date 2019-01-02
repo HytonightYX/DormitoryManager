@@ -93,12 +93,12 @@ public interface StudentMapper {
      * 通过college/class/department来分类
      * @return
      */
-    @Select("select * from studentinfo GROUP BY stu_college")
-    List<Student> groupByCollege();
+    @Select("select stu_college from studentinfo group by stu_college")
+    List<String> groupByCollege();
 
-    @Select("select * from studentinfo GROUP BY stu_class")
-    List<Student> groupByClass();
+    @Select("select stu_class from studentinfo group by stu_class")
+    List<String> groupByClass();
 
-    @Select("select * from studentinfo GROUP BY stu_department")
-    List<Student> groupByDepartment();
+    @Select("select stu_department from studentinfo group by stu_department")
+    List<String> groupByDepartment();
 }

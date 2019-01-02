@@ -2,12 +2,17 @@ package me.hsy.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.security.Key;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,9 +21,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
+import javafx.util.Callback;
 import javafx.util.Duration;
 import me.hsy.MainApp;
 import me.hsy.pojo.Bed;
@@ -27,6 +34,7 @@ import me.hsy.pojo.Student;
 import me.hsy.service.AdminService;
 import me.hsy.service.RoomService;
 import me.hsy.service.StudentService;
+import me.hsy.test.T;
 import me.hsy.util.AlertInfoUtil;
 import me.hsy.util.CurrentAdminUtil;
 
@@ -49,6 +57,9 @@ public class AdminSystemController {
     private Bed[] beds = new Bed[4];
     private List<Bed> bedArrayList = new ArrayList<>(5);
     private ObservableList<Bed> bedObservableList;
+
+    /** 存储学生查询结果的列表 */
+    private ObservableList<Student> studentObservableList;
 
     /** 存储时间 */
     private int year;
@@ -190,6 +201,33 @@ public class AdminSystemController {
     private TableColumn<Bed, String> scheckInTimeCol;
 
     @FXML
+    private TableView<Student> infoTabTable;
+
+    @FXML
+    private TableColumn<Student, Long> idCol;
+
+    @FXML
+    private TableColumn<Student, String> nameCol;
+
+    @FXML
+    private TableColumn<Student, String> collegeCol;
+
+    @FXML
+    private TableColumn<Student, String> departmentCol;
+
+    @FXML
+    private TableColumn<Student, String> classCol;
+
+    @FXML
+    private TableColumn<Student, Boolean> checkedCol;
+
+    @FXML
+    private TableColumn<Student, Timestamp> inTimeCol;
+
+    @FXML
+    private TableColumn<Student, Timestamp> outTimeCol;
+
+    @FXML
     private TextField infoTabStuIdTf;
 
     @FXML
@@ -212,6 +250,7 @@ public class AdminSystemController {
 
     @FXML
     private ImageView backupDBIco;
+
 
     @FXML
     void searchRoom(ActionEvent event) {
@@ -333,13 +372,6 @@ public class AdminSystemController {
     }
 
     /**
-     * 设定所有ChoiceBox
-     */
-    public void setChoiceBoxAll() {
-
-    }
-
-    /**
      * 设定退房Tab信息
      */
     public void setCheckOutTab(Student student) {
@@ -415,7 +447,30 @@ public class AdminSystemController {
      */
     @FXML
     void infoTabStuReset(ActionEvent event) {
+        infoTabStuResetImpl();
+    }
 
+    /**
+     * 学生查询条件重置实现
+     * 该方法多次用到，分离出来单独实现
+     */
+    private void infoTabStuResetImpl() {
+        infoTabStuIdTf.setText("");
+        infoTabStuNameTf.setText("");
+
+        // 设置下拉框列表
+        infoTabStuDCb.setItems(FXCollections.observableArrayList(studentService.getDepartmentList()));
+        infoTabStuClassCb.setItems(FXCollections.observableArrayList(studentService.getClassList()));
+        infoTabStuCollegeCb.setItems(FXCollections.observableArrayList(studentService.getCollegeList()));
+        infoTabCheckedCb.setItems(FXCollections.observableArrayList(
+                new ArrayList<String>(){{add("是"); add("否");}}
+        ));
+
+        // 清空下拉框
+        infoTabStuCollegeCb.setValue("");
+        infoTabStuClassCb.setValue("");
+        infoTabStuDCb.setValue("");
+        infoTabCheckedCb.setValue("");
     }
 
     /**
@@ -424,8 +479,36 @@ public class AdminSystemController {
      */
     @FXML
     void infoTabStuQuery(ActionEvent event) {
+        Student student = new Student();
 
+        try {
+            student.setStuId(null);
+            student.setStuId("".equals(infoTabStuIdTf.getText()) ? null : Long.parseLong(infoTabStuIdTf.getText()));
+        } catch (NumberFormatException e) {
+            new AlertInfoUtil("警告","学号不合法，请修改后重试！").showAndWait();
+            infoTabStuIdTf.setText("");
+            System.out.println("用户在查询界面输入学号不合法");
+        }
+
+        student.setStuName(infoTabStuNameTf.getText());
+        student.setStuDepartment(infoTabStuDCb.getValue().toString());
+        student.setStuCollege(infoTabStuCollegeCb.getValue().toString());
+        student.setStuClass(infoTabStuClassCb.getValue().toString());
+
+        if ("是".equals(infoTabCheckedCb.getValue().toString())) {
+            student.setChecked(true);
+        } else if ("否".equals(infoTabCheckedCb.getValue().toString())) {
+            student.setChecked(false);
+        }
+
+        List<Student> studentList = studentService.queryStudent(student);
+
+        System.out.println(studentList);
+
+        studentObservableList = FXCollections.observableList(studentList);
+        infoTabTable.setItems(studentObservableList);
     }
+
 
     /**
      * 寝室查询条件重置
@@ -433,7 +516,14 @@ public class AdminSystemController {
      */
     @FXML
     void infoTabRoomReset(ActionEvent event) {
+        infoTabRoomResetImpl();
+    }
 
+    /**
+     * 寝室查询条件重置实现
+     */
+    private void infoTabRoomResetImpl() {
+        infoTabRoomIdTf.setText("");
     }
 
     /**
@@ -442,7 +532,36 @@ public class AdminSystemController {
      */
     @FXML
     void infoTabRoomQuery(ActionEvent event) {
+        String num = infoTabRoomIdTf.getText();
+        try {
+            Long key = Long.parseLong(num);
+            Room room = roomService.findRoomById(key);
+            if (room == null) {
+                throw new NumberFormatException();
+            }
+            List<Student> studentList = new ArrayList<>(4);
+            if(room.getBed1() != 0) {
+                studentList.add(studentService.findStudentById(room.getBed1()));
+            }
+            if(room.getBed2() != 0) {
+                studentList.add(studentService.findStudentById(room.getBed2()));
+            }
+            if(room.getBed3() != 0) {
+                studentList.add(studentService.findStudentById(room.getBed3()));
+            }
+            if(room.getBed4() != 0) {
+                studentList.add(studentService.findStudentById(room.getBed4()));
+            }
+            studentObservableList = FXCollections.observableList(studentList);
 
+            if (studentList.size() == 0) {
+                new AlertInfoUtil("提示","该寝室暂时无人居住").showAndWait();
+            }
+            infoTabTable.setItems(studentObservableList);
+        } catch (NumberFormatException e) {
+            new AlertInfoUtil("警告","请输入正确的房间号").showAndWait();
+            System.out.println("用户输入了不合法的值，已警告");
+        }
     }
 
     /**
@@ -486,7 +605,21 @@ public class AdminSystemController {
         sclassCol.setCellValueFactory(new PropertyValueFactory<>("sclass"));
         scheckInTimeCol.setCellValueFactory(new PropertyValueFactory<>("scheckInTime"));
 
-
+        /* 初始化学生信息查询Tab列表 */
+        idCol.setCellValueFactory(new PropertyValueFactory<>("stuId"));
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("stuName"));
+        collegeCol.setCellValueFactory(new PropertyValueFactory<>("stuCollege"));
+        departmentCol.setCellValueFactory(new PropertyValueFactory<>("stuDepartment"));
+        classCol.setCellValueFactory(new PropertyValueFactory<>("stuClass"));
+        inTimeCol.setCellValueFactory(new PropertyValueFactory<>("checkInTime"));
+        outTimeCol.setCellValueFactory(new PropertyValueFactory<>("checkOutTime"));
+        /* 重要！列表添加单选的方法 */
+        checkedCol.setCellFactory(column -> new CheckBoxTableCell<>());
+        checkedCol.setCellValueFactory(cellData -> {
+            Student cellValue = cellData.getValue();
+            BooleanProperty property = new SimpleBooleanProperty(cellValue.getChecked());
+            return property;
+        });
 
         /* 刷新列表内容 */
         flashRoomTable();
@@ -562,6 +695,12 @@ public class AdminSystemController {
         // 屏蔽入住退房Tab防止用户误操作
         checkInTab.setDisable(true);
         checkOutTab.setDisable(true);
+
+        // 重置学生查询条件
+        infoTabStuResetImpl();
+
+        // 重置寝室查询条件
+        infoTabRoomResetImpl();
 
         assert signOutBtn != null : "fx:id=\"signOutBtn\" was not injected: check your FXML file 'AdminSystem.fxml'.";
         assert timeInfoLabel != null : "fx:id=\"timeInfoLabel\" was not injected: check your FXML file 'AdminSystem.fxml'.";

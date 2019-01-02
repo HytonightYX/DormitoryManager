@@ -8,6 +8,7 @@ import me.hsy.util.SqlSessionFactoryUtil;
 import org.apache.ibatis.session.SqlSession;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -208,7 +209,9 @@ public class StudentService {
     /**
      * 多条件查询
      * 应用于第二页面
+     * 18年的最后一行代码
      * @param student
+     * @return studentList
      */
     public List<Student> queryStudent(Student student) {
         SqlSession sqlSession = SqlSessionFactoryUtil.openSqlSession();
@@ -222,9 +225,47 @@ public class StudentService {
     }
 
     /**
-     *
-     *
-     *
-     * 昨天写到这里
+     * 获取学院列表
+     * @return collegeList
      */
+    public List<String> getCollegeList() {
+        SqlSession sqlSession = SqlSessionFactoryUtil.openSqlSession();
+        StudentMapper studentMapper = sqlSession.getMapper(StudentMapper.class);
+
+        List<String> collegeList = studentMapper.groupByCollege();
+
+        sqlSession.commit();
+        sqlSession.close();
+        return collegeList;
+    }
+
+    /**
+     * 获取学院列表
+     * @return departmentList
+     */
+    public List<String> getDepartmentList() {
+        SqlSession sqlSession = SqlSessionFactoryUtil.openSqlSession();
+        StudentMapper studentMapper = sqlSession.getMapper(StudentMapper.class);
+
+        List<String> departmentList = studentMapper.groupByDepartment();
+
+        sqlSession.commit();
+        sqlSession.close();
+        return departmentList;
+    }
+
+    /**
+     * 获取班级列表
+     * @return classList
+     */
+    public List<String> getClassList() {
+        SqlSession sqlSession = SqlSessionFactoryUtil.openSqlSession();
+        StudentMapper studentMapper = sqlSession.getMapper(StudentMapper.class);
+
+        List<String> classList = studentMapper.groupByClass();
+
+        sqlSession.commit();
+        sqlSession.close();
+        return classList;
+    }
 }

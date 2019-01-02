@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 public class Student {
 
     /** 学生学号Id 主键*/
-    private long stuId;
+    private Long stuId;
 
     /** 学生姓名 */
     private String stuName;
@@ -28,7 +28,7 @@ public class Student {
     private String stuClass;
 
     /** 入住状态 */
-    private boolean isChecked;
+    private Boolean isChecked;
 
     /** 入住时间 */
     private Timestamp checkInTime;
@@ -36,20 +36,12 @@ public class Student {
     /** 退房时间 */
     private Timestamp checkOutTime;
 
-    public long getStuId() {
+    public Long getStuId() {
         return stuId;
     }
 
-    public void setStuId(long stuId) {
+    public void setStuId(Long stuId) {
         this.stuId = stuId;
-    }
-
-    public String getStuCollege() {
-        return stuCollege;
-    }
-
-    public void setStuCollege(String stuCollege) {
-        this.stuCollege = stuCollege;
     }
 
     public String getStuName() {
@@ -58,6 +50,14 @@ public class Student {
 
     public void setStuName(String stuName) {
         this.stuName = stuName;
+    }
+
+    public String getStuCollege() {
+        return stuCollege;
+    }
+
+    public void setStuCollege(String stuCollege) {
+        this.stuCollege = stuCollege;
     }
 
     public String getStuDepartment() {
@@ -76,11 +76,11 @@ public class Student {
         this.stuClass = stuClass;
     }
 
-    public boolean isChecked() {
+    public Boolean getChecked() {
         return isChecked;
     }
 
-    public void setChecked(boolean checked) {
+    public void setChecked(Boolean checked) {
         isChecked = checked;
     }
 

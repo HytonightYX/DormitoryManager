@@ -9,18 +9,18 @@
             select * from studentinfo
             <where>
                 <if test="stuId != null">
-                    and stu_id = #{stuId}
+                    and stu_id LIKE CONCAT(CONCAT('%', #{stuId}), '%')
                 </if>
-                <if test="stuName != null">
-                    and stu_name = #{stuName}
+                <if test="stuName != ''">
+                    and stu_name LIKE CONCAT(CONCAT('%', #{stuName}), '%')
                 </if>
-                <if test="stuCollege != null">
+                <if test="stuCollege != ''">
                     and stu_college = #{stuCollege}
                 </if>
-                <if test="stuDepartment != null">
+                <if test="stuDepartment != ''">
                     and stu_department = #{stuDepartment}
                 </if>
-                <if test="stuClass != null">
+                <if test="stuClass != ''">
                     and stu_class = #{stuClass}
                 </if>
                 <if test="isChecked != null">

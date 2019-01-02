@@ -2,28 +2,10 @@
 
 <?import javafx.scene.image.*?>
 <?import javafx.scene.shape.*?>
-<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
 <VBox prefHeight="862.0" prefWidth="1228.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="me.hsy.controller.AdminSystemController">
    <children>
@@ -52,12 +34,12 @@
             </Label>
             <Button fx:id="changePwdBtn" mnemonicParsing="false" onAction="#changePwd" prefHeight="31.0" prefWidth="74.0" text="修改密码">
                <HBox.margin>
-                  <Insets left="50.0" />
+                  <Insets left="160.0" />
                </HBox.margin>
             </Button>
             <Button fx:id="signOutBtn" mnemonicParsing="false" onAction="#signOut" prefHeight="31.0" prefWidth="74.0" text="退出登陆">
                <HBox.margin>
-                  <Insets left="20.0" />
+                  <Insets left="30.0" />
                </HBox.margin>
             </Button>
          </children>
@@ -404,14 +386,14 @@
                <content>
                   <BorderPane prefHeight="200.0" prefWidth="200.0">
                      <center>
-                        <TableView prefHeight="785.0" prefWidth="913.0" BorderPane.alignment="CENTER">
+                        <TableView fx:id="infoTabTable" prefHeight="785.0" prefWidth="913.0" BorderPane.alignment="CENTER">
                           <columns>
                             <TableColumn fx:id="idCol" prefWidth="100.0" text="学号" />
                             <TableColumn fx:id="nameCol" prefWidth="100.0" text="姓名" />
                               <TableColumn fx:id="collegeCol" prefWidth="100.0" text="学院" />
                               <TableColumn fx:id="departmentCol" prefWidth="100.0" text="专业" />
                               <TableColumn fx:id="classCol" prefWidth="100.0" text="班级" />
-                              <TableColumn fx:id="checkedCol" prefWidth="100.0" text="是否入住" />
+                              <TableColumn fx:id="checkedCol" prefWidth="90.0" text="是否入住" />
                               <TableColumn fx:id="inTimeCol" prefWidth="145.0" text="入住时间" />
                               <TableColumn fx:id="outTimeCol" prefWidth="145.0" text="退房时间" />
                           </columns>
