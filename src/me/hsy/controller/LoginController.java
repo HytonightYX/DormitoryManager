@@ -15,6 +15,7 @@ import me.hsy.pojo.Admin;
 import me.hsy.service.AdminService;
 import me.hsy.util.AlertInfoUtil;
 import me.hsy.util.CurrentAdminUtil;
+import sun.applet.Main;
 
 /**
  * Login控制器
@@ -58,12 +59,14 @@ public class LoginController {
                     System.out.println("您还未修改密码， 请修改");
 
                     new AlertInfoUtil("提示",
-                            "检测到您是首次登陆,请修改初始密码").show();
+                            "检测到您是首次登陆,请修改初始密码").showAndWait();
 
                     // 前往修改密码界面
                     Parent parent = FXMLLoader.load(getClass().getResource("../view/ResetPassword.fxml"));
                     Scene scene = new Scene(parent);
-                    MainApp.primaryStage.setScene(scene);
+                    MainApp.secondStage.setScene(scene);
+                    MainApp.secondStage.setTitle("修改密码");
+                    MainApp.secondStage.show();
                 } else {
                     // 前往到管理员界面
                     CurrentAdminUtil.setCurrentAdmin(admin);
@@ -87,7 +90,9 @@ public class LoginController {
         // 前往修改密码界面
         Parent parent = FXMLLoader.load(getClass().getResource("../view/ResetPassword.fxml"));
         Scene scene = new Scene(parent);
-        MainApp.primaryStage.setScene(scene);
+        MainApp.secondStage.setScene(scene);
+        MainApp.secondStage.setTitle("修改密码");
+        MainApp.secondStage.show();
     }
 
     @FXML

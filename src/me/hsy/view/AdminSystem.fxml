@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
+<?import java.lang.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.geometry.*?>
@@ -575,16 +578,22 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ImageView fx:id="backupDBIco" fitHeight="78.0" fitWidth="78.0" layoutX="52.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="backupDBIco" fitHeight="78.0" fitWidth="78.0" layoutX="52.0" layoutY="44.0" onMouseClicked="#backupDB" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../resources/images/Database.png" />
+                              <Image url="@images/Database.png" />
                            </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
                         <Label layoutX="61.0" layoutY="129.0" text="备份数据库" />
-                        <ImageView fx:id="exportExcelIco" fitHeight="78.0" fitWidth="78.0" layoutX="170.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="exportExcelIco" fitHeight="78.0" fitWidth="78.0" layoutX="170.0" layoutY="44.0" onMouseClicked="#exportExcel" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../../resources/images/Excel.png" />
+                              <Image url="images/Excel.png" />
                            </image>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </ImageView>
                         <Label layoutX="165.0" layoutY="129.0" text="导出为Excel表格" />
                      </children></AnchorPane>

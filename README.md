@@ -28,3 +28,5 @@ MVC（模型Model-视图View-控制器Controller）
 ![image](resources/images/tab1.png)
 
 ![image](resources/images/tab2.png)
+
+![image](resources/images/backupDB.png)

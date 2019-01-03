@@ -2,12 +2,10 @@ package me.hsy.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.security.Key;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -23,8 +21,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import me.hsy.MainApp;
@@ -34,9 +35,12 @@ import me.hsy.pojo.Student;
 import me.hsy.service.AdminService;
 import me.hsy.service.RoomService;
 import me.hsy.service.StudentService;
-import me.hsy.test.T;
 import me.hsy.util.AlertInfoUtil;
+import me.hsy.util.BackupDataBaseUtil;
 import me.hsy.util.CurrentAdminUtil;
+
+import static me.hsy.MainApp.primaryStage;
+import static me.hsy.MainApp.secondStage;
 
 
 /**
@@ -251,6 +255,8 @@ public class AdminSystemController {
     @FXML
     private ImageView backupDBIco;
 
+    @FXML
+    private ImageView exportExcelIco;
 
     @FXML
     void searchRoom(ActionEvent event) {
@@ -282,7 +288,7 @@ public class AdminSystemController {
         CurrentAdminUtil.setCurrentAdmin(null);
         Parent parent = FXMLLoader.load(getClass().getResource("../view/Login.fxml"));
         Scene scene = new Scene(parent);
-        MainApp.primaryStage.setScene(scene);
+        primaryStage.setScene(scene);
     }
 
     /**
@@ -294,7 +300,9 @@ public class AdminSystemController {
     void changePwd(ActionEvent event) throws IOException {
         Parent parent = FXMLLoader.load(getClass().getResource("../view/ResetPassword.fxml"));
         Scene scene = new Scene(parent);
-        MainApp.primaryStage.setScene(scene);
+        secondStage.setScene(scene);
+        MainApp.secondStage.setTitle("修改密码");
+        MainApp.secondStage.show();
     }
 
     /**
@@ -569,8 +577,7 @@ public class AdminSystemController {
      * @param event
      */
     @FXML
-    void backupDB(ActionEvent event) {
-
+    void backupDB(ActionEvent event) throws IOException {
     }
 
     /**
@@ -580,6 +587,22 @@ public class AdminSystemController {
     @FXML
     void exportExcel(ActionEvent event) {
 
+    }
+
+    /**
+     * 设置更多功能栏图片
+     */
+    public void showImage() {
+        try {
+            Image image1 = new Image("images/Database.png");
+            Image image2 = new Image("images/Excel.png");
+            backupDBIco.setImage(image1);
+            exportExcelIco.setImage(image2);
+            backupDBIco.setCache(true);
+            exportExcelIco.setCache(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -701,6 +724,24 @@ public class AdminSystemController {
 
         // 重置寝室查询条件
         infoTabRoomResetImpl();
+
+
+        // 初始化Tab3图标
+        showImage();
+
+        // 设置图标单击事件
+        backupDBIco.setOnMouseClicked(e -> {
+            Parent parent = null;
+            try {
+                parent = FXMLLoader.load(getClass().getResource("../view/BackupDB.fxml"));
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            Scene scene = new Scene(parent);
+            secondStage.setScene(scene);
+            secondStage.setTitle("备份数据库");
+            secondStage.show();
+        });
 
         assert signOutBtn != null : "fx:id=\"signOutBtn\" was not injected: check your FXML file 'AdminSystem.fxml'.";
         assert timeInfoLabel != null : "fx:id=\"timeInfoLabel\" was not injected: check your FXML file 'AdminSystem.fxml'.";

@@ -99,10 +99,7 @@ public class ResetPasswordController {
 
     @FXML
     void cancelChangePwd(ActionEvent event) throws IOException {
-        Parent parent = FXMLLoader.load(getClass().getResource("../view/Login.fxml"));
-        Scene scene = new Scene(parent);
-        MainApp.primaryStage.setScene(scene);
-        System.out.println("用户返回了登录页面");
+        MainApp.secondStage.close();
     }
 
     @FXML
@@ -128,10 +125,7 @@ public class ResetPasswordController {
                 adminService.updateAdminPasswordByName(adminName, newPassword);
                 System.out.println("用户密码修改成功");
 
-                Parent parent = FXMLLoader.load(getClass().getResource("../view/Login.fxml"));
-                Scene scene = new Scene(parent);
-                MainApp.primaryStage.setScene(scene);
-                System.out.println("用户返回了登录页面");
+                MainApp.secondStage.close();
             }
         }
     }
