@@ -6,7 +6,6 @@ JavaFx2
 Mybatis3
 ```
 
-
 ### 开发环境
 ``` 
 Java 1.8   
@@ -23,7 +22,7 @@ MVC（模型Model-视图View-控制器Controller）
 ### 效果图与功能介绍
 1、登陆
 - 初次登陆必须修改密码
-
+- 初始管理员：用户名admin，密码123
 ![image](resources/images/login.png)
 
 2、修改密码
@@ -48,6 +47,23 @@ MVC（模型Model-视图View-控制器Controller）
 
 * 更多功能页面
     * 备份数据库：需提供用户名、密码、数据库名称、路径、文件名等信息
-    * 导出Excel表格功能正在开发中...
+    * 导出Excel报表：自动导出当前所有学生的详细报表
     
 ![image](resources/images/backupDB.png)
+
+![image](resources/images/exportExcel.png)
+
+
+
+### 1.0版本完工了...
+
+- 代码统计
+
+![image](resources/images/statistic.png)
+
+* 一些感悟
+    * 遵循MVC设计模式（Model–view–controller），加上JavaFX原生支持，确实很大程度上实现了分层和解耦，出了Bug改起来很方便，甚至可以在写完了整个项目之后再改界面还不够满意的地方。
+    * 开发流程： 确定需求 -> 写数据库访问接口 -> 写业务逻辑 -> 写页面（FXML+controller）， 调起之前写的数据库访问方法很爽。
+    * 使用Mybatis框架，原理和JDBC大同小异，但是支持注解（快速实现基础增删改查） + XML（复杂多条件查询等），功能更加强大
+    * 工具类：
+        * 单例模式实现SqlSessionFactoryUtil，工厂模式创建sqlSession。

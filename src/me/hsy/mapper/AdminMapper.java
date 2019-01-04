@@ -1,7 +1,6 @@
 package me.hsy.mapper;
 
 import me.hsy.pojo.Admin;
-import me.hsy.pojo.Student;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 

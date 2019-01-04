@@ -57,6 +57,7 @@ public class BackupDBController {
     void choiceBackupPath(ActionEvent event) {
         Stage stage = new Stage();
         DirectoryChooser directoryChooser=new DirectoryChooser();
+        directoryChooser.setTitle("选择备份路径");
         File file = directoryChooser.showDialog(stage);
         //选择的文件夹路径
         String path = file.getPath();

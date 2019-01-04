@@ -1,5 +1,6 @@
 package me.hsy.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
@@ -24,9 +25,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.stage.Modality;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.Duration;
 import me.hsy.MainApp;
 import me.hsy.pojo.Bed;
@@ -35,15 +35,14 @@ import me.hsy.pojo.Student;
 import me.hsy.service.AdminService;
 import me.hsy.service.RoomService;
 import me.hsy.service.StudentService;
-import me.hsy.util.AlertInfoUtil;
-import me.hsy.util.BackupDataBaseUtil;
-import me.hsy.util.CurrentAdminUtil;
+import me.hsy.util.*;
 
 import static me.hsy.MainApp.primaryStage;
 import static me.hsy.MainApp.secondStage;
 
 
 /**
+ * 主界面控制层
  * @author HytonightYX
  */
 public class AdminSystemController {
@@ -562,31 +561,14 @@ public class AdminSystemController {
             }
             studentObservableList = FXCollections.observableList(studentList);
 
+            infoTabTable.setItems(studentObservableList);
             if (studentList.size() == 0) {
                 new AlertInfoUtil("提示","该寝室暂时无人居住").showAndWait();
             }
-            infoTabTable.setItems(studentObservableList);
         } catch (NumberFormatException e) {
             new AlertInfoUtil("警告","请输入正确的房间号").showAndWait();
             System.out.println("用户输入了不合法的值，已警告");
         }
-    }
-
-    /**
-     * 备份数据库到指定位置
-     * @param event
-     */
-    @FXML
-    void backupDB(ActionEvent event) throws IOException {
-    }
-
-    /**
-     * 导出Excel报表
-     * @param event
-     */
-    @FXML
-    void exportExcel(ActionEvent event) {
-
     }
 
     /**
@@ -651,6 +633,10 @@ public class AdminSystemController {
         roomTable.setRowFactory(e -> {
             TableRow<Room> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
+                // 选中左侧先屏蔽入住退房Tab
+                checkInTab.setDisable(true);
+                checkOutTab.setDisable(true);
+
                 if (!row.isEmpty() && event.getButton() == MouseButton.PRIMARY
                         && event.getClickCount() == 1) {
 
@@ -743,11 +729,25 @@ public class AdminSystemController {
             secondStage.show();
         });
 
+        exportExcelIco.setOnMouseClicked(e -> {
+            String fileName = "学生入住详情-" + year + '年' + month + '月' + day + "日_" + hour + '点' + minute + "分";
+            // 弹出路径选择框
+            Stage stage = new Stage();
+            DirectoryChooser directoryChooser=new DirectoryChooser();
+            directoryChooser.setTitle("选择生成文件路径");
+            File file = directoryChooser.showDialog(stage);
+            try {
+                String savePath = file.getPath();
+                ExportExcelUtil.createExcel(studentService.findStudentAll(), savePath, fileName);
+            } catch (NullPointerException npe) {
+                System.out.println("用户取消了导出报表操作");
+            }
+        });
+
         assert signOutBtn != null : "fx:id=\"signOutBtn\" was not injected: check your FXML file 'AdminSystem.fxml'.";
         assert timeInfoLabel != null : "fx:id=\"timeInfoLabel\" was not injected: check your FXML file 'AdminSystem.fxml'.";
         assert adminInfoLabel != null : "fx:id=\"adminInfoLabel\" was not injected: check your FXML file 'AdminSystem.fxml'.";
         assert changePwdBtn != null : "fx:id=\"changePwdBtn\" was not injected: check your FXML file 'AdminSystem.fxml'.";
         assert studentInfoLabel != null : "fx:id=\"studentInfoLabel\" was not injected: check your FXML file 'AdminSystem.fxml'.";
     }
-
 }

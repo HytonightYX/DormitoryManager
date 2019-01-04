@@ -15,10 +15,9 @@ import me.hsy.pojo.Admin;
 import me.hsy.service.AdminService;
 import me.hsy.util.AlertInfoUtil;
 import me.hsy.util.CurrentAdminUtil;
-import sun.applet.Main;
 
 /**
- * Login控制器
+ * 登录页控制器
  *
  * @author HytonightYX
  */
@@ -80,8 +79,8 @@ public class LoginController {
                 System.out.println("用户名或密码错误！");
             }
         } else {
-            new AlertInfoUtil("警告",
-                    "信息不完整，请重新输入！").show();
+            new AlertInfoUtil("提示",
+                    "用户名或密码错误！").show();
         }
     }
 

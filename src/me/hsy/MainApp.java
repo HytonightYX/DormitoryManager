@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-
 /**
  * @author HytonightYX
  * @date 2018/12/17 22:09

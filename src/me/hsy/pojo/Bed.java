@@ -1,7 +1,7 @@
 package me.hsy.pojo;
 
 /**
- *
+ * 一个寝室中的床位pojo
  *
  * @author HytonightYX
  */
