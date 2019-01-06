@@ -60,8 +60,12 @@ public class BackupDBController {
         directoryChooser.setTitle("选择备份路径");
         File file = directoryChooser.showDialog(stage);
         //选择的文件夹路径
-        String path = file.getPath();
-        backupPathTf.setText(path);
+        try {
+            String path = file.getPath();
+            backupPathTf.setText(path);
+        }  catch (NullPointerException npe) {
+            System.out.println("用户取消了导出数据库操作");
+        }
     }
 
     @FXML

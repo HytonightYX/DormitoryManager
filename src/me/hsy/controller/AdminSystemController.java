@@ -405,13 +405,18 @@ public class AdminSystemController {
             Long id = Long.parseLong(checkInTabStuIdTf.getText());
             Student student = studentService.findStudentById(id);
             if (student != null) {
-                String time = LocalDateTime.now().toString().replace('T', ' ');
-                checkInTabStuNameTf.setText(student.getStuName());
-                checkInTabStuClassTf.setText(student.getStuClass());
-                checkInTabStuCollegeTf.setText(student.getStuCollege());
-                checkInTabStuDepartmentTf.setText(student.getStuDepartment());
-                checkInTabCheckInTimeTf.setText(time.substring(0, time.length() - 4));
-                selectedStuId = student.getStuId();
+                if (!student.getChecked()) {
+                    String time = LocalDateTime.now().toString().replace('T', ' ');
+                    checkInTabStuNameTf.setText(student.getStuName());
+                    checkInTabStuClassTf.setText(student.getStuClass());
+                    checkInTabStuCollegeTf.setText(student.getStuCollege());
+                    checkInTabStuDepartmentTf.setText(student.getStuDepartment());
+                    checkInTabCheckInTimeTf.setText(time.substring(0, time.length() - 4));
+                    selectedStuId = student.getStuId();
+                } else {
+                    new AlertInfoUtil("提示","该学生已入住！").showAndWait();
+                    System.out.println("用户输入了已入住的学号，已提醒");
+                }
             } else {
                 new AlertInfoUtil("提示","该学号不存在").showAndWait();
                 System.out.println("用户输入了不存在的学号，已提醒");

@@ -2,13 +2,13 @@
 
 ### 技术栈
 ```
-JavaFx2     
+JavaFx2
 Mybatis3
 ```
 
 ### 开发环境
-``` 
-Java 1.8   
+```
+Java 1.8
 Idea-2018.3
 ```
 
